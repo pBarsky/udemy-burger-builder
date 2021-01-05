@@ -1,4 +1,5 @@
 import Button from "../../UI/Button/Button";
+import PropTypes from "prop-types";
 
 const OrderSummary = (props) => {
   const ingridientSummary = Object.keys(props.ingridients).map((igKey) => {
@@ -28,4 +29,9 @@ const OrderSummary = (props) => {
   );
 };
 
+OrderSummary.propTypes = {
+  purchaseCanceled: PropTypes.func.isRequired,
+  purchaseContinued: PropTypes.func.isRequired,
+  ingridients: PropTypes.object.isRequired,
+};
 export default OrderSummary;

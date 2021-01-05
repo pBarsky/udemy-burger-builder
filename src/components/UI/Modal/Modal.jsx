@@ -1,5 +1,6 @@
 import classes from "./Modal.module.css";
 import Backdrop from "../Backdrop/Backdrop";
+import { memo } from "react";
 
 const Modal = (props) => {
   return (
@@ -18,4 +19,8 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+function shouldUpdate(prevProps, nextProps) {
+  return prevProps.show === nextProps.show;
+}
+
+export default memo(Modal, shouldUpdate);
