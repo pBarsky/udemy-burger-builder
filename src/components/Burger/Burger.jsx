@@ -1,4 +1,5 @@
-import React from "react";
+import PropTypes from "prop-types";
+
 import classes from "./Burger.module.css";
 import BurgerIngridient from "./BurgerIngridient/BurgerIngridient";
 const Burger = (props) => {
@@ -15,7 +16,6 @@ const Burger = (props) => {
   if (ingridients.length === 0) {
     ingridients = <p>Please start adding ingridients. 😏</p>;
   }
-
   return (
     <div className={classes.Burger}>
       <BurgerIngridient type="bread-top" />
@@ -24,5 +24,7 @@ const Burger = (props) => {
     </div>
   );
 };
-
+Burger.propTypes = {
+  ingridients: PropTypes.object.isRequired,
+};
 export default Burger;

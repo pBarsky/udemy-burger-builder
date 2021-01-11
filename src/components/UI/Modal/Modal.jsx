@@ -20,7 +20,10 @@ const Modal = (props) => {
 };
 
 function shouldUpdate(prevProps, nextProps) {
-  return prevProps.show === nextProps.show;
+  return (
+    prevProps.show === nextProps.show &&
+    prevProps.children === nextProps.children
+  );
 }
 
 export default memo(Modal, shouldUpdate);
