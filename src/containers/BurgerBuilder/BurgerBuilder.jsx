@@ -1,8 +1,10 @@
 import { Component } from "react";
 import axios from "../../axios-orders";
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions";
-
+import {
+  burgerBuilderActions,
+  orderActions,
+} from "../../store/actions/actions";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
@@ -13,15 +15,10 @@ import withErrorHandler from "../../hoc/WithErrorHandler/WithErrorHandler";
 export class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: false,
   };
 
   componentDidMount() {
-    // axios
-    //   .get("/ingridients.json")
-    //   .then((response) => this.setState({ ingridients: response.data }))
-    //   .catch((error) => this.setState({ error: error }));
+    this.props.onInitIngridients();
   }
 
   updatePurchaseState = (ingridients) => {
@@ -41,6 +38,7 @@ export class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
+    this.props.onInitPurchase();
     this.props.history.push("/checkout");
   };
 
@@ -53,7 +51,7 @@ export class BurgerBuilder extends Component {
     }
     let orderSummary = null;
 
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <p>Ingridients cannot be loaded.</p>
     ) : (
       <Spinner />
@@ -81,9 +79,6 @@ export class BurgerBuilder extends Component {
           />
         </>
       );
-      if (this.state.loading) {
-        orderSummary = <Spinner />;
-      }
     }
 
     return (
@@ -101,21 +96,18 @@ export class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ingridients: state.ingridients,
-  totalPrice: state.totalPrice,
+  ingridients: state.burgerBuilder.ingridients,
+  totalPrice: state.burgerBuilder.totalPrice,
+  error: state.burgerBuilder.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onIngridientAdded: (ingridientName) =>
-    dispatch({
-      type: actionTypes.ADD_INGRIDIENT,
-      payload: { ingridientName: ingridientName },
-    }),
+    dispatch(burgerBuilderActions.addIngridient(ingridientName)),
   onIngridientRemoved: (ingridientName) =>
-    dispatch({
-      type: actionTypes.REMOVE_INGRIDIENT,
-      payload: { ingridientName: ingridientName },
-    }),
+    dispatch(burgerBuilderActions.removeIngridient(ingridientName)),
+  onInitIngridients: () => dispatch(burgerBuilderActions.initIngridients()),
+  onInitPurchase: () => dispatch(orderActions.purchaseInit()),
 });
 
 export default connect(
