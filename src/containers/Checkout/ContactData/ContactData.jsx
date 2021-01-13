@@ -7,7 +7,8 @@ import Button from "../../../components/UI/Button/Button";
 import Input from "../../../components/UI/Input/Input";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../../hoc/WithErrorHandler/WithErrorHandler";
-import * as orderActions from "../../../store/actions/orderActions";
+import { orderActions } from "../../../store/actions/actions";
+import { updateObject } from "../../../shared/utility";
 class ContactData extends Component {
   state = {
     orderForm: {
@@ -64,6 +65,7 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          isEmail: true,
         },
         valid: false,
         touched: false,
@@ -137,19 +139,20 @@ class ContactData extends Component {
   }
 
   inputChangedHandler = ({ target }, inputIdentifier) => {
-    const updatedOrderForm = {
-      ...this.state.orderForm,
-    };
-    const updatedOrderFormElement = {
-      ...updatedOrderForm[inputIdentifier],
-    };
-    updatedOrderFormElement.value = target.value;
-    updatedOrderFormElement.valid = this.checkValidity(
-      updatedOrderFormElement.value,
-      updatedOrderFormElement.validation
+    const updatedFormElement = updateObject(
+      this.state.orderForm[inputIdentifier],
+      {
+        value: target.value,
+        valid: this.checkValidity(
+          target.value,
+          this.state.orderForm[inputIdentifier].validation
+        ),
+        touched: true,
+      }
     );
-    updatedOrderFormElement.touched = true;
-    updatedOrderForm[inputIdentifier] = updatedOrderFormElement;
+    const updatedOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifier]: updatedFormElement,
+    });
 
     let formIsValid = true;
     for (const id in updatedOrderForm) {
