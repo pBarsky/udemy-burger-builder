@@ -42,8 +42,8 @@ export const auth = (email, password, isSignup) => {
     };
 
     const url = isSignup
-      ? "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD3SpwNDuEbiGKhW0u72TwS89jMfsiJIRo"
-      : "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD3SpwNDuEbiGKhW0u72TwS89jMfsiJIRo";
+      ? `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`
+      : `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_API_KEY}`;
 
     axios
       .post(url, authData)
@@ -89,6 +89,3 @@ export const authCheckState = () => {
     );
   };
 };
-
-// https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
-// API_KEY = "AIzaSyD3SpwNDuEbiGKhW0u72TwS89jMfsiJIRo"

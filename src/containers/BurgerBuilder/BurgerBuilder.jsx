@@ -87,7 +87,6 @@ export class BurgerBuilder extends Component {
         </>
       );
     }
-
     return (
       <>
         <Modal
