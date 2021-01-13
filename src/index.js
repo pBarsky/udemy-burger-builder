@@ -27,8 +27,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-console.log(process.env.REACT_APP_API_KEY);
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
