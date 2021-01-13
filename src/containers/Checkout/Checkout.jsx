@@ -17,7 +17,7 @@ class Checkout extends Component {
     const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
 
     const summary = !this.props.ingridients ? (
-      <Redirect t="/" />
+      <Redirect to="/" />
     ) : (
       <div>
         {purchasedRedirect}

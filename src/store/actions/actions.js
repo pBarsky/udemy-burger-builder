@@ -4,6 +4,12 @@ import {
   removeIngridient,
   initIngridients,
 } from "./burgerBuilderActions";
+import {
+  auth,
+  authCheckState,
+  logout,
+  setAuthRedirectPath,
+} from "./authActions";
 
 const orderActions = {
   fetchOrders: fetchOrders,
@@ -17,4 +23,11 @@ const burgerBuilderActions = {
   initIngridients: initIngridients,
 };
 
-export { orderActions, burgerBuilderActions };
+const authActions = {
+  auth: auth,
+  logout: logout,
+  setAuthRedirectPath: setAuthRedirectPath,
+  authCheckState: authCheckState,
+};
+
+export { orderActions, burgerBuilderActions, authActions };

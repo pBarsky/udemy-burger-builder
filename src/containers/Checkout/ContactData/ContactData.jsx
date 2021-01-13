@@ -99,27 +99,42 @@ class ContactData extends Component {
       ingridients: this.props.ingridients,
       price: this.props.price,
       orderData: formData,
+      userId: this.props.userId,
     };
 
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.token);
   };
 
-  checkValidity = (value, rules) => {
+  checkValidity(value, rules) {
     let isValid = true;
     if (!rules) {
-      return isValid;
+      return true;
     }
+
     if (rules.required) {
-      isValid &= value.trim() !== "";
+      isValid = value.trim() !== "" && isValid;
     }
+
     if (rules.minLength) {
-      isValid &= value.length >= rules.minLength;
+      isValid = value.length >= rules.minLength && isValid;
     }
+
     if (rules.maxLength) {
-      isValid &= value.length <= rules.maxLength;
+      isValid = value.length <= rules.maxLength && isValid;
     }
-    return Boolean(isValid);
-  };
+
+    if (rules.isEmail) {
+      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isNumeric) {
+      const pattern = /^\d+$/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    return isValid;
+  }
 
   inputChangedHandler = ({ target }, inputIdentifier) => {
     const updatedOrderForm = {
@@ -189,11 +204,13 @@ const mapStateToProps = (state) => ({
   ingridients: state.burgerBuilder.ingridients,
   price: state.burgerBuilder.totalPrice,
   loading: state.order.loading,
+  token: state.auth.token,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onOrderBurger: (orderData) =>
-    dispatch(orderActions.purchaseBurger(orderData)),
+  onOrderBurger: (orderData, token) =>
+    dispatch(orderActions.purchaseBurger(orderData, token)),
 });
 
 export default connect(

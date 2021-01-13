@@ -20,23 +20,19 @@ const WithErrorHandler = (WrappedComponent, axiosInstance) => {
     };
 
     render() {
-      this.requestInterceptor =
-        this.requestInterceptor == null
-          ? this.requestInterceptor
-          : axiosInstance.interceptors.request.use((config) => {
-              this.setState({ error: null });
-              return config;
-            });
-      this.responseInterceptor =
-        this.responseInterceptor == null
-          ? this.responseInterceptor
-          : axiosInstance.interceptors.response.use(
-              (res) => res,
-              (error) => {
-                this.setState({ error: error });
-                return Promise.reject(error);
-              }
-            );
+      this.requestInterceptor = axiosInstance.interceptors.request.use(
+        (config) => {
+          this.setState({ error: null });
+          return config;
+        }
+      );
+      this.responseInterceptor = axiosInstance.interceptors.response.use(
+        (res) => res,
+        (error) => {
+          this.setState({ error: error });
+          return Promise.reject(error);
+        }
+      );
       return (
         <>
           <Modal
