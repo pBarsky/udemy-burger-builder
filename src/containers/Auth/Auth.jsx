@@ -20,6 +20,7 @@ class Auth extends Component {
           required: true,
           isEmail: true,
         },
+        errors: [],
         valid: false,
         touched: false,
       },
@@ -34,6 +35,7 @@ class Auth extends Component {
         },
         valid: false,
         touched: false,
+        errors: [],
       },
     },
     formIsValid: false,
@@ -56,7 +58,11 @@ class Auth extends Component {
     const updatedControls = updateObject(this.state.controls, {
       [controlName]: updateObject(this.state.controls[controlName], {
         value: target.value,
-        valid: checkValidity(target.value, this.state[controlName].validation),
+        valid: checkValidity(
+          target.value,
+          this.state.controls[controlName].validation,
+          this.state.controls[controlName].errors
+        ),
         touched: true,
       }),
     });
@@ -98,6 +104,7 @@ class Auth extends Component {
           invalid={!formElement.config.valid}
           shouldValidate={formElement.config.validation}
           touched={formElement.config.touched}
+          errors={formElement.config.errors}
         />
       ))
     ) : (

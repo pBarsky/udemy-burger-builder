@@ -59,8 +59,11 @@ const Input = (props) => {
 
   let validationError = null;
   if (props.invalid && props.touched) {
-    // validationError = <p>{props.errorMessage}</p>;
-    validationError = <p>Please enter a correct value.</p>;
+    validationError = props.errors ? (
+      <p className={classes.ErrorText}>{props.errors.join(" ")}</p>
+    ) : (
+      <p className={classes.ErrorText}>Please enter a correct value.</p>
+    );
   }
 
   return (

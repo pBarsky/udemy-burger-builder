@@ -36,3 +36,8 @@
   color: red;
   margin: 5px 0;
 }
+
+.ErrorText {
+  color: #777;
+  font-size: 0.8em;
+}

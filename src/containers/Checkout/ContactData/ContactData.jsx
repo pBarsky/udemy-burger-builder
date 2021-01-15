@@ -21,6 +21,7 @@ class ContactData extends Component {
           required: true,
         },
         valid: false,
+        errors: [],
         touched: false,
       },
       street: {
@@ -32,6 +33,7 @@ class ContactData extends Component {
           required: true,
         },
         valid: false,
+        errors: [],
         touched: false,
       },
       zipCode: {
@@ -45,6 +47,7 @@ class ContactData extends Component {
           maxLength: 5,
         },
         valid: false,
+        errors: [],
         touched: false,
       },
       country: {
@@ -56,6 +59,7 @@ class ContactData extends Component {
           required: true,
         },
         valid: false,
+        errors: [],
         touched: false,
       },
       email: {
@@ -68,6 +72,7 @@ class ContactData extends Component {
           isEmail: true,
         },
         valid: false,
+        errors: [],
         touched: false,
       },
       deliveryMethod: {
@@ -79,6 +84,7 @@ class ContactData extends Component {
           ],
         },
         valid: true,
+        errors: [],
         touched: false,
         value: "fastest",
         label: "Delivery method",
@@ -114,7 +120,8 @@ class ContactData extends Component {
         value: target.value,
         valid: checkValidity(
           target.value,
-          this.state.orderForm[inputIdentifier].validation
+          this.state.orderForm[inputIdentifier].validation,
+          this.state.orderForm[inputIdentifier].errors
         ),
         touched: true,
       }
@@ -151,6 +158,7 @@ class ContactData extends Component {
             invalid={!formElement.config.valid}
             shouldValidate={formElement.config.validation}
             touched={formElement.config.touched}
+            errors={formElement.config.errors}
           />
         ))}
         <Button buttonType="Success" disabled={!this.state.formIsValid}>
