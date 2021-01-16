@@ -4,14 +4,12 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Logout from "./containers/Auth/Logout/Logout";
 import { connect } from "react-redux";
 import { authActions } from "./store/actions/actions";
-import { Component } from "react";
-import asyncComponent from "./hoc/asyncComponent/asyncComponent";
+import { Component, lazy, Suspense } from "react";
+import Spinner from "./components/UI/Spinner/Spinner";
 
-const asyncCheckout = asyncComponent(() =>
-  import("./containers/Checkout/Checkout")
-);
-const asyncOrders = asyncComponent(() => import("./containers/Orders/Orders"));
-const asyncAuth = asyncComponent(() => import("./containers/Auth/Auth"));
+const asyncCheckout = lazy(() => import("./containers/Checkout/Checkout"));
+const asyncOrders = lazy(() => import("./containers/Orders/Orders"));
+const asyncAuth = lazy(() => import("./containers/Auth/Auth"));
 
 class App extends Component {
   componentDidMount() {
@@ -41,7 +39,9 @@ class App extends Component {
     return (
       <div>
         <Layout>
-          <Switch>{routes}</Switch>
+          <Suspense fallback={<Spinner />}>
+            <Switch>{routes}</Switch>
+          </Suspense>
         </Layout>
       </div>
     );
