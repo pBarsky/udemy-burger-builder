@@ -15,6 +15,14 @@ const INgriDIENT_PRICES = {
   bacon: 0.7,
 };
 
+const calculatePrice = (ingridients) => {
+  let totalPrice = 4;
+  for (const ingridient in ingridients) {
+    totalPrice += INgriDIENT_PRICES[ingridient] * ingridients[ingridient];
+  }
+  return totalPrice;
+};
+
 const addIngridient = (state, { ingridientName }) => {
   const updatedIngridient = {
     [ingridientName]: state.ingridients[ingridientName] + 1,
@@ -49,7 +57,7 @@ const setIngridients = (state, { ingridients }) => {
       cheese: ingridients.cheese,
       meat: ingridients.meat,
     },
-    totalPrice: 4,
+    totalPrice: calculatePrice(ingridients),
     error: false,
     building: false,
   });
